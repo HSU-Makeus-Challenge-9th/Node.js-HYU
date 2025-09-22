@@ -1,0 +1,1 @@
+TCP 3 way handshake로 상대가 전송을 받을 수 있는지 확인 → client(end system)가 IP, Port와 같은 정보를 패킷에 담아 Access Network을 통해 인터넷에 보냄→ Access Network에서 Network Core로 접근하고, 이 때 Router가 패킷 안의 IP 정보를 통해 더 알맞은 위치의 Router로 보냄 → 최종적으로 Network Edge(Server)에 패킷이 도착하면 Network Layer에서 IP 확인, 맞으면 Transport Layer에서 Port 확인 후 어느 애플리케이션에 데이터를 보낼 지 결정한다
