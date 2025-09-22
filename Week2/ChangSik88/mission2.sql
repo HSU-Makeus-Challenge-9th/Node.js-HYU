@@ -8,4 +8,4 @@ values(
  요!!',
  date(Now()),
  date(Now())
- ) -- store_id가 1인 곳에 user_id가 1인 유저의 네임으로 리뷰를 작성함
+ ) -- store_id가 1인 곳에 user_id가 1인 유저의 네임으로 리뷰를 작성함.
