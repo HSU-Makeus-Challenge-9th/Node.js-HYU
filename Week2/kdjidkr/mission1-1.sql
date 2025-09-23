@@ -42,7 +42,7 @@ join
 -- 완료된 것만 불러오기
 where um.is_completed is True
       and user_mission.user_id = {사용자 id}
-order by expire_at desc;
+order by complete_at;
 
 
 -- 1-4. 진행 완료 (커서)
@@ -61,5 +61,5 @@ where um.is_completed = True
       and um.user_mission_id != {커서 미션 아이디}
       and user_mission.user_id == {사용자 id}
 -- 만료일 얼마 안 남은 순으로 정렬하기
-order by complete_at desc;
+order by complete_at,;
 
