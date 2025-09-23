@@ -1,8 +1,10 @@
 -- 2. 리뷰를 작성?? or 리뷰를 조회???
 -- 2-1. 조회
-select name, score, content, created_at, review_photo 
-from review
-where store_id = {"매장 id"}
+select s.name, r.score, r.content, r.created_at, rp.review_photo 
+from review as r
+join review_photo as rp on  r.inquiry_id = rp.inquiry_id
+join store as s on r.store_id = s.store_id
+where s.store_id = {"매장 id"}
 
 --2-2. 작성
 insert into review (user_id, store_id, content, score, created_at, updated_at)

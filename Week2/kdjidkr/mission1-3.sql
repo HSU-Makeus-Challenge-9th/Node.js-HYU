@@ -9,10 +9,10 @@ order by created_at desc;
 -- 3-2. 달성한 미션이 몇 개인지
 select count(*)
 from user_mission
-where user_id = {사용자 id} and is_completed is True
+where user_id = {사용자 id} and is_completed is True;
 
 -- 3-3. 진행 중
-select um.user_mission_id, 
+select s.name, um.expire_at, m.cost_standard, m.point, s.type
 from 
       user_mission as um
 join 
@@ -23,4 +23,5 @@ join
 where um.is_completed = False 
       and NOW() < expire_at 
       and user_mission.user_id = {사용자 id}
-order by expire_at desc;
+      and s.location = '안암동'
+order by expire_at asc;
