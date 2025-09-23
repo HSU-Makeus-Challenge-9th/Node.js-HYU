@@ -1,3 +1,4 @@
+--커서값 안받음
 select
 p.address,
 p.my_point,
@@ -15,5 +16,27 @@ join Profile as p on p.id = mc.profile_id
 where p.address =s.address and
 mc.is_cleared = 0 and --아직 클리어되지 않은 미션 
 ml.deadline>date(Now()) --지금 시간으로부터 미션 마감일이 지난 미션은 표시x
-order by ml.mission_point DESC --미션 포인트가 높은것 부터 보여줌.
-limit 10;
+order by ml.id DESC 
+limit 5;
+
+--커서값 받음
+select
+p.address,
+p.my_point,
+mc.is_cleared,
+ml.deadline,
+ml.mission_point,
+ml.mission_money,
+s.name,
+s.address,
+store_category
+from Mission_list as ml
+join Store as s on s.id=ml.store_id
+join Mission_check as mc on ml.id = mc.mission_id
+join Profile as p on p.id = mc.profile_id
+where p.address =s.address and
+mc.is_cleared = 0 and 
+ml.deadline>date(Now()) and
+ml.id<{마지막으로 본 미션id} --마지막 미션 id 이전의 것들만 보여줌
+order by ml.id DESC
+limit 5;
