@@ -4,4 +4,5 @@ p.email,
 p.my_point,
 pc.is_confirm
 from profile as p
-join phone_check pc on pc.profile_id=p.id --
+left join phone_check as pc on pc.profile_id=p.id
+where p.id=(:user_id)

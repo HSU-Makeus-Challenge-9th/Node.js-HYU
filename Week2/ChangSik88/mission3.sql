@@ -13,9 +13,9 @@ from Mission_list as ml
 join Store as s on s.id=ml.store_id
 join Mission_check as mc on ml.id = mc.mission_id
 join Profile as p on p.id = mc.profile_id
-where p.address =s.address and
+where p.address ="안암동" and
 mc.is_cleared = 0 and --아직 클리어되지 않은 미션 
-ml.deadline>date(Now()) --지금 시간으로부터 미션 마감일이 지난 미션은 표시x
+ml.deadline>CURDATE() --지금 시간으로부터 미션 마감일이 지난 미션은 표시x
 order by ml.id DESC 
 limit 5;
 
@@ -34,9 +34,9 @@ from Mission_list as ml
 join Store as s on s.id=ml.store_id
 join Mission_check as mc on ml.id = mc.mission_id
 join Profile as p on p.id = mc.profile_id
-where p.address =s.address and
+where p.address ="안암동" and
 mc.is_cleared = 0 and 
-ml.deadline>date(Now()) and
-ml.id<{마지막으로 본 미션id} --마지막 미션 id 이전의 것들만 보여줌
+ml.deadline>CURDATE() and
+ml.id<(:last_mission_id) --마지막 미션 id 이전의 것들만 보여줌
 order by ml.id DESC
 limit 5;
