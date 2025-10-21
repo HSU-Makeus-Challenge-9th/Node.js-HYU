@@ -1,15 +1,24 @@
 export const bodyToReview = (body) => {
     const response = {
-	userId: body.userId,
-    storeId: body.storeId,
-    challengeMissionId: body.challengeMissionId,
-    rating: body.rating,
-    content: body.content,
+	  user_id: body.user_id,
+    store_id: body.store_id,
+    body: body.body,
+    score: body.score,
   }
   return response;
 }
+export const responseFromReview = (body) => {
+  const response = {
+    user_id: body.user_id,
+    store_id: body.store_id,
+    body: body.body,
+    score: body.score
 
-export const responseFromReview = (review) => {
+  };
+  return response;
+}
+
+export const responseFromReviews = (review) => {
   return {
     data: review,
     pagination: {

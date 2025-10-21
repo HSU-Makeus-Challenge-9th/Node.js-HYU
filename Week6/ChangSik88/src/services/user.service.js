@@ -7,24 +7,16 @@ import {
 } from "../repositories/user.repository.js";
 
 export const userSignUp = async (data) => {
-  const joinUserId = await addUser({
-    email: data.email,
-    name: data.name,
-    gender: data.gender,
-    birth: data.birth,
-    address: data.address,
-    detailAddress: data.detailAddress,
-    phoneNumber: data.phoneNumber,
-    password: data.password,
-  });
+  const {preference,...userInfo} = data;
+  const joinUserId = await addUser(userInfo);
   
   if (joinUserId === null) {
-    throw new Error("이미 존재하는 이메일입니다.");
+    const error = new Error("이미 존재하는 이메일입니다.");
+    error.statusCode = 409;
+    throw error;
   }
 
-  for (const preference of data.preferences) {
-    await setPreference(joinUserId, preference);
-  }
+    await setPreference(joinUserId, data.preference);
 
   const user = await getUser(joinUserId);
   const preferences = await getUserPreferencesByUserId(joinUserId);

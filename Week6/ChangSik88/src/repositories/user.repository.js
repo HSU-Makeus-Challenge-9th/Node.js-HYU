@@ -23,8 +23,8 @@ export const getUser = async (userId) => {
 export const setPreference = async (userId, foodCategoryId) => {
   await prisma.flavor_check.create({
     data: {
-      userId: userId,
-      foodCategoryId: foodCategoryId,
+      user: {connect:{id:userId}},
+      flavor: {connect:{id:foodCategoryId}},
     },
   });
 };
@@ -32,14 +32,16 @@ export const setPreference = async (userId, foodCategoryId) => {
 // 사용자 선호 카테고리 반환
 export const getUserPreferencesByUserId = async (userId) => {
   const preferences = await prisma.flavor_check.findMany({
+    where: { user_id: userId },
     select: {
-      id: true,
-      userId: true,
-      foodCategoryId: true,
-      foodCategory: true,
+      flavor:{
+        select:{
+          id:true,
+          name:true
+        }
+      }
     },
-    where: { userId: userId },
-    orderBy: { foodCategoryId: "asc" },
+    orderBy: { category_id: "asc" },
   });
 
   return preferences;
