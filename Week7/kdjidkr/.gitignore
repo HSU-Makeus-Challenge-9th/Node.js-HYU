@@ -1,0 +1,30 @@
+# dependency directories
+node_modules/
+
+# dotenv environment variable files
+.env
+.env.*
+.env.local
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+
+# Log files
+logs/
+*.log
+npm-debug.log*
+
+# Build outputs
+dist/
+build/
+
+# Test coverage
+coverage/
