@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model flavor {
+  id           Int            @id @default(autoincrement())
+  name         String?        @db.VarChar(15)
+  flavor_check flavor_check[]
+}
+
+model flavor_check {
+  id          Int       @id @default(autoincrement())
+  user_id     Int?
+  category_id Int?
+  created_at  DateTime? @db.DateTime(6)
+  updated_at  DateTime? @db.DateTime(6)
+  user        user?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "flavor_check_ibfk_1")
+  flavor      flavor?   @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "flavor_check_ibfk_2")
+
+  @@index([category_id], map: "category_id")
+  @@index([user_id], map: "user_id")
+}
+
+model mission_list {
+  id            Int            @id @default(autoincrement())
+  store_id      Int?
+  mission_point Int?
+  deadline      DateTime?      @db.DateTime(0)
+  mission_spec  String?        @db.Text
+  mission_money Int?
+  created_at    DateTime?      @db.DateTime(6)
+  updated_at    DateTime?      @db.DateTime(6)
+  store         store?         @relation(fields: [store_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "mission_list_ibfk_1")
+  user_mission  user_mission[]
+
+  @@index([store_id], map: "store_id")
+}
+
+model region {
+  id         Int       @id @default(autoincrement())
+  name       String?   @db.VarChar(20)
+  created_at DateTime? @db.DateTime(6)
+  updated_at DateTime? @db.DateTime(6)
+}
+
+model review {
+  id         Int       @id @default(autoincrement())
+  user_id    Int?
+  store_id   Int?
+  body       String?   @db.Text
+  score      Float?    @db.Float
+  created_at DateTime? @db.DateTime(6)
+  user       user?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "review_ibfk_1")
+  store      store?    @relation(fields: [store_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "review_ibfk_2")
+
+  @@index([store_id], map: "store_id")
+  @@index([user_id], map: "user_id")
+}
+
+model store {
+  id           Int            @id @default(autoincrement())
+  name         String?        @db.VarChar(50)
+  address      String?        @db.VarChar(50)
+  created_at   DateTime?      @db.DateTime(6)
+  updated_at   DateTime?      @db.DateTime(6)
+  mission_list mission_list[]
+  review       review[]
+}
+
+model user {
+  id            Int            @id @default(autoincrement())
+  name          String?        @db.VarChar(20)
+  gender        String?        @db.VarChar(10)
+  age           Int?
+  address       String?        @db.VarChar(40)
+  status        String?        @db.VarChar(15)
+  inactive_time DateTime?      @db.DateTime(6)
+  created_at    DateTime?      @db.DateTime(6)
+  updated_at    DateTime?      @db.DateTime(6)
+  email         String?        @db.VarChar(50)
+  point         Int?
+  flavor_check  flavor_check[]
+  review        review[]
+  user_mission  user_mission[]
+}
+
+model user_mission {
+  id           Int           @id @default(autoincrement())
+  user_id      Int?
+  mission_id   Int?
+  is_cleared   String        @default("진행 중") @db.VarChar(15)
+  verifyCode   String?       @db.Char(5)
+  created_at   DateTime?     @db.DateTime(6)
+  updated_at   DateTime?     @db.DateTime(6)
+  user         user?         @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_mission_ibfk_1")
+  mission_list mission_list? @relation(fields: [mission_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_mission_ibfk_2")
+
+  @@index([mission_id], map: "mission_id")
+  @@index([user_id], map: "user_id")
+}
