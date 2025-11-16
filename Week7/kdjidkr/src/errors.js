@@ -1,20 +1,50 @@
-export class DuplicateUserEmailError extends Error {
-  errorCode = "U001";
+import { StatusCodes } from "http-status-codes";
+// 파트장님의 코드를 많이 참조했습니다.
 
-  constructor(reason, data) {
-    super(reason);
-    this.reason = reason;
-    this.data = data;
+export class CustomError extends Error {
+  // Keep constructor parameter order as (statusCode, message, errorCode)
+  // because subclass constructors call `super(StatusCodes.X, message, ...)`.
+  constructor(statusCode, message, errorCode = null) {
+    super(message);
+    this.statusCode = statusCode;
+    this.errorCode = errorCode || this.constructor.name;
+    this.name = this.constructor.name;
+    Error.captureStackTrace(this, this.constructor);
   }
 }
 
-export class UserNotFoundError extends Error {
-    errorCode = "U002";
-
-    constructor(reason, data) {
-      super(reason);
-      this.reason = reason;
-      this.data = data;
-    }
+export class DuplicateUserEmailError extends CustomError {
+  constructor(message = "중복된 이메일이 존재합니다."){
+    super(StatusCodes.CONFLICT, message, "DUPLICATE_USER_EMAIL");
+  }
 }
 
+export class StoreNotFoundError extends CustomError {
+  constructor(message = "존재하지 않은 가게입니다.") {
+    super(StatusCodes.BAD_REQUEST, message, "STORE_NOT_FOUND");
+  }
+}
+
+export class UserNotFoundError extends CustomError {
+  constructor(message = "존재하지 않는 사용자입니다.") {
+    super(StatusCodes.BAD_REQUEST, message, "USER_NOT_FOUND");
+  }
+}
+
+export class AlreadyChallengedMissionError extends CustomError {
+  constructor(message = "이미 도전한 미션입니다.") {
+    super(StatusCodes.BAD_REQUEST, message, "MISSION_ALREADY_CHALLENGED");
+  }
+}
+
+export class MissionNotFoundError extends CustomError {
+  constructor(message = "존재하지 않는 미션입니다.") {
+    super(StatusCodes.BAD_REQUEST, message, "MISSION_NOT_FOUND");
+  }
+}
+
+export class InternalServerError extends CustomError {
+  constructor(message = "서버 내부 오류입니다.") {
+    super(StatusCodes.INTERNAL_SERVER_ERROR, message, "INTERNAL_SERVER_ERROR");
+  }
+}

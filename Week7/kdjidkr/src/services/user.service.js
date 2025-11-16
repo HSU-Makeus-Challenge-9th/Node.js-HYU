@@ -8,7 +8,7 @@ import {
   getUserReviewsByUserId,
   getUserMissionsInProgressByUserId
 } from "../repositories/user.repository.js";
-import { DuplicateUserEmailError } from "../errors.js";
+import { DuplicateUserEmailError, } from "../errors.js";
 
 export const userSignUp = async (data) => {
   const joinUserId = await addUser({
@@ -20,10 +20,6 @@ export const userSignUp = async (data) => {
     phone: data.phone,
     password: data.password,
   });
-
-  if (joinUserId === null) {
-    throw new DuplicateUserEmailError("이미 존재하는 이메일입니다.", data);
-  }
 
   await setPreferences(joinUserId, data.preferences);
 
