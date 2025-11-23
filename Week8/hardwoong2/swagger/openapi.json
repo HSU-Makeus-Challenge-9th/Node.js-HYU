@@ -1,0 +1,1178 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "UMC 9th Node.js API",
+    "description": "UMC 9th Node.js 프로젝트 API 문서입니다.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/"
+    }
+  ],
+  "paths": {
+    "/api/v1/stores": {
+      "post": {
+        "tags": [
+          "Stores"
+        ],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/StoreResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoreAddRequest"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/api/v1/reviews": {
+      "post": {
+        "tags": [
+          "Reviews"
+        ],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/ReviewResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "rating": {
+                    "example": "any"
+                  },
+                  "content": {
+                    "example": "any"
+                  }
+                }
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewAddRequest"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/api/v1/reviews/json": {
+      "post": {
+        "tags": [
+          "Reviews"
+        ],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/ReviewResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewAddJsonRequest"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/api/v1/missions": {
+      "post": {
+        "tags": [
+          "Missions"
+        ],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/MissionResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MissionAddRequest"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/api/v1/missions/{missionId}/challenge": {
+      "post": {
+        "tags": [
+          "Missions"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "missionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/MissionResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MissionChallengeRequest"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/api/v1/missions/success/request": {
+      "post": {
+        "tags": [
+          "Missions"
+        ],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/MissionSuccessResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MissionSuccessRequest"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/api/v1/missions/success/confirm": {
+      "post": {
+        "tags": [
+          "Missions"
+        ],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/MissionConfirmResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MissionSuccessConfirmRequest"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/api/v1/users/signup": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/UserSignupResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSignupRequest"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/api/v1/users/{userId}/reviews": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/MyReviewsResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v1/stores/{storeId}/missions": {
+      "get": {
+        "tags": [
+          "Stores"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/StoreMissionsResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v1/users/{userId}/missions/ongoing": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/MyOngoingMissionsResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Users",
+      "description": "사용자 관련 API - 회원가입, 내 리뷰, 내 미션 조회 등"
+    },
+    {
+      "name": "Stores",
+      "description": "가게 관련 API - 가게 추가, 가게 미션 조회 등"
+    },
+    {
+      "name": "Missions",
+      "description": "미션 관련 API - 미션 추가, 도전, 성공 요청/확정 등"
+    },
+    {
+      "name": "Reviews",
+      "description": "리뷰 관련 API - 리뷰 작성 (이미지 포함/텍스트만)"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "UserSignupRequest": {
+        "type": "object",
+        "required": [
+          "name",
+          "gender",
+          "email",
+          "password"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "홍길동"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "M",
+              "F",
+              "NONE"
+            ],
+            "example": "M"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "test@example.com"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8,
+            "example": "password123"
+          },
+          "birth": {
+            "type": "string",
+            "format": "date",
+            "example": "1990-01-01",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "example": "서울시 강남구",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "example": "010-1234-5678",
+            "nullable": true
+          },
+          "preferences": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "example": [
+              1,
+              3,
+              6
+            ]
+          }
+        }
+      },
+      "UserSignupResponse": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "number",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "홍길동"
+          },
+          "email": {
+            "type": "string",
+            "example": "test@example.com"
+          },
+          "userStatus": {
+            "type": "string",
+            "example": "ACTIVE"
+          },
+          "userType": {
+            "type": "string",
+            "example": "GENERAL"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "StoreAddRequest": {
+        "type": "object",
+        "required": [
+          "storeName",
+          "storeAddress",
+          "storeType"
+        ],
+        "properties": {
+          "storeName": {
+            "type": "string",
+            "example": "맛있는 식당"
+          },
+          "storeAddress": {
+            "type": "string",
+            "example": "서울시 강남구 테헤란로 123"
+          },
+          "storeType": {
+            "type": "string",
+            "enum": [
+              "KOREAN",
+              "CHINESE",
+              "JAPANESE",
+              "WESTERN",
+              "CHICKEN",
+              "SNACK",
+              "MEAT",
+              "DOSIRAK",
+              "YASICK",
+              "DESSERT",
+              "FAST_FOOD",
+              "ASIAN",
+              "ETC"
+            ],
+            "example": "KOREAN"
+          },
+          "region": {
+            "type": "string",
+            "example": "서울",
+            "nullable": true
+          }
+        }
+      },
+      "StoreResponse": {
+        "type": "object",
+        "properties": {
+          "storeId": {
+            "type": "number",
+            "example": 1
+          },
+          "storeName": {
+            "type": "string",
+            "example": "맛있는 식당"
+          },
+          "storeAddress": {
+            "type": "string",
+            "example": "서울시 강남구 테헤란로 123"
+          },
+          "storeType": {
+            "type": "string",
+            "example": "KOREAN"
+          },
+          "storeScore": {
+            "type": "number",
+            "nullable": true,
+            "example": null
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "MissionAddRequest": {
+        "type": "object",
+        "required": [
+          "storeId",
+          "region",
+          "missionMoney",
+          "missionPoint"
+        ],
+        "properties": {
+          "storeId": {
+            "type": "number",
+            "example": 1
+          },
+          "region": {
+            "type": "string",
+            "enum": [
+              "SEOUL",
+              "BUSAN",
+              "DAEGU",
+              "INCHEON",
+              "GWANGJU",
+              "DAEJEON",
+              "ULSAN",
+              "GYEONGGI",
+              "GANGWON",
+              "CHUNGBUK",
+              "CHUNGNAM",
+              "JEONBUK",
+              "JEONNAM",
+              "GYEONGBUK",
+              "GYEONGNAM",
+              "JEJU"
+            ],
+            "example": "SEOUL"
+          },
+          "missionMoney": {
+            "type": "number",
+            "example": 10000
+          },
+          "missionPoint": {
+            "type": "number",
+            "example": 100
+          }
+        }
+      },
+      "MissionResponse": {
+        "type": "object",
+        "properties": {
+          "missionId": {
+            "type": "number",
+            "example": 1
+          },
+          "storeId": {
+            "type": "number",
+            "example": 1
+          },
+          "region": {
+            "type": "string",
+            "example": "SEOUL"
+          },
+          "missionMoney": {
+            "type": "number",
+            "example": 10000
+          },
+          "missionPoint": {
+            "type": "number",
+            "example": 100
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "MissionChallengeRequest": {
+        "type": "object",
+        "required": [
+          "userId"
+        ],
+        "properties": {
+          "userId": {
+            "type": "number",
+            "example": 1
+          }
+        }
+      },
+      "MissionSuccessRequest": {
+        "type": "object",
+        "required": [
+          "challengeMissionId",
+          "userId"
+        ],
+        "properties": {
+          "challengeMissionId": {
+            "type": "number",
+            "example": 1
+          },
+          "userId": {
+            "type": "number",
+            "example": 1
+          }
+        }
+      },
+      "MissionSuccessConfirmRequest": {
+        "type": "object",
+        "required": [
+          "verificationCode",
+          "userId"
+        ],
+        "properties": {
+          "verificationCode": {
+            "type": "string",
+            "example": "123456"
+          },
+          "userId": {
+            "type": "number",
+            "example": 1
+          }
+        }
+      },
+      "MissionSuccessResponse": {
+        "type": "object",
+        "properties": {
+          "verificationCode": {
+            "type": "string",
+            "example": "123456"
+          }
+        }
+      },
+      "MissionConfirmResponse": {
+        "type": "object",
+        "properties": {
+          "challengeMissionId": {
+            "type": "number",
+            "example": 1
+          },
+          "missionMoney": {
+            "type": "number",
+            "example": 10000
+          },
+          "missionPoint": {
+            "type": "number",
+            "example": 100
+          }
+        }
+      },
+      "MyOngoingMissionItem": {
+        "type": "object",
+        "properties": {
+          "challengeMissionId": {
+            "type": "number",
+            "example": 1
+          },
+          "missionId": {
+            "type": "number",
+            "example": 1
+          },
+          "storeId": {
+            "type": "number",
+            "example": 1
+          },
+          "storeName": {
+            "type": "string",
+            "example": "맛있는 식당"
+          },
+          "storeAddress": {
+            "type": "string",
+            "example": "서울시 강남구"
+          },
+          "region": {
+            "type": "string",
+            "example": "SEOUL"
+          },
+          "missionMoney": {
+            "type": "number",
+            "example": 10000
+          },
+          "missionPoint": {
+            "type": "number",
+            "example": 100
+          },
+          "status": {
+            "type": "string",
+            "example": "IN_PROGRESS"
+          },
+          "challengeAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "limitedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "StoreMissionItem": {
+        "type": "object",
+        "properties": {
+          "missionId": {
+            "type": "number",
+            "example": 1
+          },
+          "storeId": {
+            "type": "number",
+            "example": 1
+          },
+          "storeName": {
+            "type": "string",
+            "example": "맛있는 식당"
+          },
+          "storeAddress": {
+            "type": "string",
+            "example": "서울시 강남구"
+          },
+          "region": {
+            "type": "string",
+            "example": "SEOUL"
+          },
+          "missionMoney": {
+            "type": "number",
+            "example": 10000
+          },
+          "missionPoint": {
+            "type": "number",
+            "example": 100
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Pagination": {
+        "type": "object",
+        "properties": {
+          "cursor": {
+            "type": "number",
+            "nullable": true,
+            "example": 10
+          }
+        }
+      },
+      "MyOngoingMissionsResponse": {
+        "type": "object",
+        "properties": {
+          "missions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MyOngoingMissionItem"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "StoreMissionsResponse": {
+        "type": "object",
+        "properties": {
+          "missions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StoreMissionItem"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "ReviewAddRequest": {
+        "type": "object",
+        "required": [
+          "rating",
+          "content",
+          "challengeMissionId"
+        ],
+        "properties": {
+          "rating": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 5,
+            "example": 5,
+            "description": "별점 (1-5)"
+          },
+          "content": {
+            "type": "string",
+            "example": "맛있어요!"
+          },
+          "challengeMissionId": {
+            "type": "number",
+            "example": 1
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "binary"
+            },
+            "description": "이미지 파일 (최대 5개)"
+          }
+        }
+      },
+      "ReviewAddJsonRequest": {
+        "type": "object",
+        "required": [
+          "rating",
+          "content",
+          "challengeMissionId",
+          "userId"
+        ],
+        "properties": {
+          "rating": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 5,
+            "example": 5,
+            "description": "별점 (1-5)"
+          },
+          "content": {
+            "type": "string",
+            "example": "맛있어요!"
+          },
+          "challengeMissionId": {
+            "type": "number",
+            "example": 1
+          },
+          "userId": {
+            "type": "number",
+            "example": 1
+          }
+        }
+      },
+      "ReviewResponse": {
+        "type": "object",
+        "properties": {
+          "reviewId": {
+            "type": "number",
+            "example": 1
+          },
+          "storeName": {
+            "type": "string",
+            "example": "맛있는 식당"
+          }
+        }
+      },
+      "MyReviewItem": {
+        "type": "object",
+        "properties": {
+          "reviewId": {
+            "type": "number",
+            "example": 1
+          },
+          "storeName": {
+            "type": "string",
+            "example": "맛있는 식당"
+          },
+          "storeAddress": {
+            "type": "string",
+            "example": "서울시 강남구"
+          },
+          "reviewText": {
+            "type": "string",
+            "example": "맛있어요!"
+          },
+          "score": {
+            "type": "number",
+            "example": 5
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "image1.jpg"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "MyReviewsResponse": {
+        "type": "object",
+        "properties": {
+          "reviews": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MyReviewItem"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "요청이 성공적으로 처리되었습니다."
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 400
+          },
+          "message": {
+            "type": "string",
+            "example": "요청 처리 중 오류가 발생했습니다."
+          },
+          "error": {
+            "type": "string",
+            "example": "ERROR_CODE"
+          },
+          "data": {
+            "type": "object",
+            "nullable": true,
+            "example": null
+          }
+        }
+      }
+    }
+  }
+}
