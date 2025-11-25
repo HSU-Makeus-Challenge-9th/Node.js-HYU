@@ -1,0 +1,274 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  userId                BigInt                 @id @default(autoincrement()) @map("user_id")
+  name                  String                 @db.VarChar(255)
+  gender                AccountGender
+  birthdate             DateTime               @db.DateTime(0)
+  address               String?                @db.VarChar(255)
+  point                 Int?
+  isActivated           Boolean                @default(true) @map("is_activated")
+  inactiveDate          DateTime?              @map("inactive_date") @db.DateTime(0)
+  phone                 String                 @db.VarChar(100)
+  email                 String?                @unique(map: "email") @db.VarChar(255)
+  userType              AccountUserType?       @map("user_type")
+  createdAt             DateTime               @default(now()) @map("created_at") @db.DateTime(6)
+  updatedAt             DateTime               @default(now()) @map("updated_at") @db.DateTime(6)
+  isPhoneVerified       Boolean?               @map("is_phone_verified")
+  password              String?                @db.VarChar(255)
+  foodPreference        FoodPreference[]
+  inquiry               Inquiry[]
+  notification          Notification[]
+  notificationAgreement NotificationAgreement?
+  review                Review[]
+  reviewReply           ReviewReply[]
+  serviceAgreement      ServiceAgreement?
+  userMission           UserMission[]
+
+  @@map("account")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model FoodList {
+  foodId         BigInt           @id @default(autoincrement()) @map("food_id")
+  name           String           @db.VarChar(255)
+  foodPreference FoodPreference[]
+
+  @@map("food_list")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model FoodPreference {
+  id       BigInt   @id @default(autoincrement())
+  foodId   BigInt   @map("food_id")
+  userId   BigInt   @map("user_id")
+  account  Account  @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "fk_food_preference_to_account")
+  foodList FoodList @relation(fields: [foodId], references: [foodId], onDelete: NoAction, onUpdate: NoAction, map: "fk_food_preference_to_food_list")
+
+  @@index([userId], map: "fk_food_preference_to_account")
+  @@index([foodId], map: "fk_food_preference_to_food_list")
+  @@map("food_preference")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model Inquiry {
+  inquiryId    BigInt             @id @default(autoincrement()) @map("inquiry_id")
+  userId       BigInt             @map("user_id")
+  title        String             @db.VarChar(255)
+  content      String?            @db.Text
+  createdAt    DateTime           @default(now()) @map("created_at") @db.DateTime(6)
+  updatedAt    DateTime           @default(now()) @map("updated_at") @db.DateTime(6)
+  inquiryType  InquiryInquiryType @map("inquiry_type")
+  account      Account            @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "fk_inquiry_to_account")
+  inquiryPhoto InquiryPhoto[]
+
+  @@index([userId], map: "fk_inquiry_to_account")
+  @@map("inquiry")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model InquiryPhoto {
+  inquiryPhotoId BigInt  @id @default(autoincrement()) @map("inquiry_photo_id")
+  inquiryId      BigInt  @map("inquiry_id")
+  photoUrl       String? @map("photo_url") @db.VarChar(255)
+  inquiry        Inquiry @relation(fields: [inquiryId], references: [inquiryId], onDelete: NoAction, onUpdate: NoAction, map: "fk_inquiry_photo_to_inquiry")
+
+  @@index([inquiryId], map: "fk_inquiry_photo_to_inquiry")
+  @@map("inquiry_photo")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model Mission {
+  missionId    BigInt        @id @default(autoincrement()) @map("mission_id")
+  storeId      BigInt        @map("store_id")
+  costStandard Int           @map("cost_standard")
+  point        Int
+  userMission  UserMission[]
+
+  @@map("mission")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model Notification {
+  notificationId BigInt           @id @default(autoincrement()) @map("notification_id")
+  userId         BigInt           @map("user_id")
+  type           NotificationType
+  content        String?          @db.VarChar(255)
+  createdAt      DateTime         @default(now()) @map("created_at") @db.DateTime(6)
+  isRead         Boolean          @default(false) @map("is_read")
+  account        Account          @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "fk_notification_to_account")
+
+  @@index([userId], map: "fk_notification_to_account")
+  @@map("notification")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model NotificationAgreement {
+  notificationOptionsId BigInt  @id @default(autoincrement()) @map("notification_options_id")
+  userId                BigInt  @unique(map: "uk_user_id") @map("user_id")
+  event                 Boolean @default(false)
+  reviewReply           Boolean @default(false) @map("review_reply")
+  inquiryReply          Boolean @default(false) @map("inquiry_reply")
+  account               Account @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "fk_notification_agreement_to_account")
+
+  @@map("notification_agreement")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model Review {
+  reviewId    BigInt        @id @default(autoincrement()) @map("review_id")
+  userId      BigInt        @map("user_id")
+  storeId     BigInt        @map("store_id")
+  content     String?       @db.Text
+  score       Decimal       @db.Decimal(2, 1)
+  createdAt   DateTime      @default(now()) @map("created_at") @db.DateTime(6)
+  updatedAt   DateTime      @default(now()) @map("updated_at") @db.DateTime(6)
+  account     Account       @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "fk_review_to_account")
+  store       Store         @relation(fields: [storeId], references: [storeId], onDelete: NoAction, onUpdate: NoAction, map: "fk_review_to_store")
+  reviewPhoto ReviewPhoto[]
+  reviewReply ReviewReply[]
+
+  @@index([userId], map: "fk_review_to_account")
+  @@index([storeId], map: "fk_review_to_store")
+  @@map("review")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model ReviewPhoto {
+  reviewPhotoId BigInt  @id @map("review_photo_id")
+  reviewId      BigInt  @map("review_id")
+  photoUrl      String? @map("photo_url") @db.VarChar(255)
+  review        Review  @relation(fields: [reviewId], references: [reviewId], onDelete: NoAction, onUpdate: NoAction, map: "fk_review_photo_to_review")
+
+  @@index([reviewId], map: "fk_review_photo_to_review")
+  @@map("review_photo")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model ReviewReply {
+  reviewReplyId BigInt   @id @default(autoincrement()) @map("review_reply_id")
+  reviewId      BigInt   @map("review_id")
+  userId        BigInt?  @map("user_id")
+  writtenAt     DateTime @default(now()) @map("written_at") @db.DateTime(6)
+  account       Account? @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "fk_review_reply_to_account")
+  review        Review   @relation(fields: [reviewId], references: [reviewId], onDelete: NoAction, onUpdate: NoAction, map: "fk_review_reply_to_review")
+
+  @@index([userId], map: "fk_review_reply_to_account")
+  @@index([reviewId], map: "fk_review_reply_to_review")
+  @@map("review_reply")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model ServiceAgreement {
+  serviceAgreementId BigInt   @id @default(autoincrement()) @map("service_agreement_id")
+  userId             BigInt   @unique(map: "uk_user_id") @map("user_id")
+  usingService       Boolean  @default(false) @map("using_service")
+  personalData       Boolean  @default(false) @map("personal_data")
+  location           Boolean  @default(false)
+  marketing          Boolean  @default(false)
+  createdAt          DateTime @default(now()) @map("created_at") @db.DateTime(6)
+  updatedAt          DateTime @default(now()) @map("updated_at") @db.DateTime(6)
+  overFourteen       Boolean  @default(false) @map("over_fourteen")
+  account            Account  @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "fk_service_agreement_to_account")
+
+  @@map("service_agreement")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model Store {
+  storeId      BigInt          @id @default(autoincrement()) @map("store_id")
+  storeName    String          @map("store_name") @db.VarChar(100)
+  storeAddress String?         @map("store_address") @db.VarChar(255)
+  storeType    StoreStoreType? @map("store_type")
+  storeScore   Decimal?        @default(0.0) @map("store_score") @db.Decimal(2, 1)
+  isOpened     Boolean?        @default(false) @map("is_opened")
+  review       Review[]
+  userMission  UserMission[]
+
+  @@map("store")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model UserMission {
+  challengeMissionId BigInt             @id @default(autoincrement()) @map("challenge_mission_id")
+  userId             BigInt             @map("user_id")
+  missionId          BigInt             @map("mission_id")
+  storeId            BigInt             @map("store_id")
+  status             UserMissionStatus? @default(IN_PROGRESS)
+  challengeAt        DateTime?          @default(now()) @map("challenge_at") @db.DateTime(6)
+  completedAt        DateTime?          @map("completed_at") @db.DateTime(6)
+  limitedAt          DateTime?          @map("limited_at") @db.DateTime(6)
+  successId          String?            @map("success_id") @db.VarChar(100)
+  mission            Mission            @relation(fields: [missionId], references: [missionId], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_mission_mission")
+  store              Store              @relation(fields: [storeId], references: [storeId], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_mission_store")
+  account            Account            @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_mission_user")
+
+  @@index([missionId], map: "fk_user_mission_mission")
+  @@index([storeId], map: "fk_user_mission_store")
+  @@index([userId], map: "fk_user_mission_user")
+  @@map("user_mission")
+}
+
+enum AccountGender {
+  male
+  female
+  other
+
+  @@map("account_gender")
+}
+
+enum NotificationType {
+  EVENT
+  REVIEW_REPLY
+  INQUIRY_REPLY
+  ETC
+
+  @@map("notification_type")
+}
+
+enum StoreStoreType {
+  KOREAN
+  CHINESE
+  JAPANESE
+  WESTERN
+  CHICKEN
+  SNACK
+  GRILL
+  LUNCH_BOX
+  LATE_NIGHT
+  FAST_FOOD
+  DESSERT
+  ASIAN
+
+  @@map("store_store_type")
+}
+
+enum UserMissionStatus {
+  IN_PROGRESS
+  COMPLETED
+
+  @@map("user_mission_status")
+}
+
+enum InquiryInquiryType {
+  ACCOUNT
+  SERVICE
+  ERROR
+  OTHER
+
+  @@map("inquiry_inquiry_type")
+}
+
+enum AccountUserType {
+  customer
+  owner
+
+  @@map("account_user_type")
+}
